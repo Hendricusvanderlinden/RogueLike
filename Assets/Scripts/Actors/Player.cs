@@ -14,6 +14,18 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
 
     private void Start()
     {
+        GameManager gameManager = FindObjectOfType<GameManager>();
+        if (gameManager != null)
+        {
+            // Stel het Actor component van dit object in als de Player in GameManager
+            gameManager.Player = GetComponent<Actor>();
+        }
+        else
+        {
+            Debug.LogError("GameManager not found in the scene!");
+        }
+
+        // Stel de camera in op de positie van de speler met een offset op de z-as
         Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -5);
     }
 

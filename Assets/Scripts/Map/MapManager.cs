@@ -55,6 +55,7 @@ public class MapManager : MonoBehaviour
         Tiles = new Dictionary<Vector3Int, TileData>();
         VisibleTiles = new List<Vector3Int>();
 
+
         var generator = new DungeonGenerator();
         generator.SetSize(width, height);
         generator.SetRoomSize(roomMinSize, roomMaxSize);
