@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
 
+
     private List<Actor> enemies = new List<Actor>(); // Lijst van vijanden
 
     public Actor Player { get; set; } // Speler
@@ -30,6 +31,15 @@ public class GameManager : MonoBehaviour
     public void AddEnemy(Actor enemy)
     {
         enemies.Add(enemy);
+    }
+
+    public void RemoveEnemy(Actor enemy)
+    {
+        if (enemies.Contains(enemy))
+        {
+            enemies.Remove(enemy);
+            Destroy(enemy.gameObject); // Optional: Destroy the enemy GameObject
+        }
     }
 
     // Functie om de beurt van de vijanden te starten
@@ -70,9 +80,25 @@ public class GameManager : MonoBehaviour
     // Functie om een vijand toe te voegen aan de lijst
     public GameObject CreateActor(string name, Vector2 position)
     {
+        // Instantiate the actor prefab based on the provided name
         GameObject actor = Instantiate(Resources.Load<GameObject>($"Prefabs/{name}"), new Vector3(position.x + 0.5f, position.y + 0.5f, 0), Quaternion.identity);
-        
+
+        // Check if the created actor is the player
+        if (name == "Player")
+        {
+            // If it's the player, set the Player variable to its Actor component
+            Player = actor.GetComponent<Actor>();
+        }
+        else
+        {
+            // If it's not the player, add it to the list of enemies
+            AddEnemy(actor.GetComponent<Actor>());
+        }
+
+        // Set the name of the actor game object
         actor.name = name;
+
+        // Return the instantiated actor
         return actor;
     }
 }

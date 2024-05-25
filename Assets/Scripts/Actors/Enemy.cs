@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
         GameManager.Get.AddEnemy(GetComponent<Actor>());
     }
 
-    
+
     // Functie om langs het pad naar de doelpositie te bewegen
     public void MoveAlongPath(Vector3Int targetPosition)
     {
