@@ -20,12 +20,7 @@ public class Enemy : MonoBehaviour
         GameManager.Get.AddEnemy(GetComponent<Actor>());
     }
 
-    // Update wordt eens per frame aangeroepen
-    void Update()
-    {
-        RunAI();
-    }
-
+    
     // Functie om langs het pad naar de doelpositie te bewegen
     public void MoveAlongPath(Vector3Int targetPosition)
     {
@@ -37,22 +32,25 @@ public class Enemy : MonoBehaviour
     // Functie om de AI van de vijand uit te voeren
     public void RunAI()
     {
-        // Als de doelwit null is, stel het doelwit in op de speler (van GameManager)
+        // If target is null, set target to player (from GameManager)
         if (Target == null)
         {
             Target = GameManager.Get.Player;
         }
 
-        // Converteer de positie van het doelwit naar een gridpositie
-        Vector3Int gridPosition = MapManager.Get.FloorMap.WorldToCell(Target.transform.position);
+        // Convert the position of the target to a gridPosition
+        var gridPosition = MapManager.Get.FloorMap.WorldToCell(Target.transform.position);
 
-        // Controleer eerst of al aan het vechten is, omdat de FieldOfView-controle meer CPU kost
+        // First check if already fighting, because the FieldOfView check costs more CPU
         if (IsFighting || GetComponent<Actor>().FieldOfView.Contains(gridPosition))
         {
-            // Als de vijand niet aan het vechten was, zou hij nu moeten vechten
-            IsFighting = true;
+            // If the enemy was not fighting, it should be fighting now
+            if (!IsFighting)
+            {
+                IsFighting = true;
+            }
 
-            // Roep MoveAlongPath aan met de gridpositie
+            // Call MoveAlongPath with the gridPosition
             MoveAlongPath(gridPosition);
         }
     }

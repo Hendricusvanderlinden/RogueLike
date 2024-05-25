@@ -22,11 +22,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    private void Start()
-    {
-        // Wijs de Player-variabele toe aan het Actor-component van dit object
-        Player = GetComponent<Actor>();
-    }
+    
 
     public static GameManager Get { get => instance; }
 
