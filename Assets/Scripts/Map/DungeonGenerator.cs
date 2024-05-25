@@ -8,6 +8,7 @@ public class DungeonGenerator : MonoBehaviour
     private int maxRoomSize, minRoomSize;
     private int maxRooms;
     private int maxEnemies;
+
     List<Room> rooms = new List<Room>();
 
     public void SetSize(int width, int height)
