@@ -9,8 +9,7 @@ public class Action : MonoBehaviour
         Actor target = GameManager.Get.GetActorAtLocation(actor.transform.position + (Vector3)direction);
         if (target == null)
         {
-            actor.Move(direction);
-            actor.UpdateFieldOfView();
+            Move(actor, direction);
         }
         else
         {
@@ -21,13 +20,9 @@ public class Action : MonoBehaviour
 
     static public void Move(Actor actor, Vector2 direction)
     {
-        Actor target = GameManager.Get.GetActorAtLocation(actor.transform.position + (Vector3)direction);
-        if (target == null)
-        {
-            actor.Move(direction);
-            actor.UpdateFieldOfView();
-        }
-        EndTurn(actor);
+        actor.Move(direction);
+        actor.UpdateFieldOfView();
+        
     }
 
     static private void EndTurn(Actor actor)
@@ -41,14 +36,18 @@ public class Action : MonoBehaviour
     static public void Hit(Actor actor, Actor target)
     {
         int damage = actor.Power - target.Defense;
+        string description = $"{actor.name} attacks {target.name}";
+        Color color = actor.GetComponent<Player>() ? Color.white : Color.red;
+
         if (damage > 0)
         {
+            UIManager.Get.AddMessage($"{description} for {damage} hit points.", color);
             target.DoDamage(damage);
-            UIManager.Instance.AddMessage($"{actor.name} hits {target.name} for {damage} damage.", actor.GetComponent<Player>() ? Color.white : Color.red);
         }
         else
         {
-            UIManager.Instance.AddMessage($"{actor.name} hits {target.name} but does no damage.", actor.GetComponent<Player>() ? Color.white : Color.red);
+            UIManager.Get.AddMessage($"{description} but does no damage.", color);
         }
     }
+
 }

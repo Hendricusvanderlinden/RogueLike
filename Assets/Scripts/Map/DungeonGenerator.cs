@@ -87,6 +87,7 @@ public class DungeonGenerator : MonoBehaviour
         }
         var player = GameManager.Get.CreateActor("Player", rooms[0].Center());
     }
+
     private void PlaceEnemies(Room room, int maxEnemies)
     {
         // the number of enemies we want
@@ -107,6 +108,37 @@ public class DungeonGenerator : MonoBehaviour
             {
                 GameManager.Get.CreateActor("Turkey", new Vector2(x, y));
             }
+        }
+    }
+    private int maxItems;
+    private List<GameObject> itemPrefabs = new List<GameObject>();
+    private List<Vector3> availablePositions = new List<Vector3>();
+
+    public void SetMaxItems(int max)
+    {
+        maxItems = max;
+    }
+
+    public void AddItemPrefab(GameObject prefab)
+    {
+        itemPrefabs.Add(prefab);
+    }
+    private void PlaceItems(Room room, int maxItems)
+    {
+        // Aantal items dat we willen plaatsen
+        int num = Random.Range(0, maxItems + 1);
+
+        for (int counter = 0; counter < num; counter++)
+        {
+            // De randen van de kamer zijn muren, dus voeg en trek 1 af
+            int x = Random.Range(room.X + 1, room.X + room.Width - 1);
+            int y = Random.Range(room.Y + 1, room.Y + room.Height - 1);
+
+            // Kies een willekeurig item uit de lijst van item prefabs
+            GameObject prefab = itemPrefabs[Random.Range(0, itemPrefabs.Count)];
+
+            // Maak het item
+            GameObject item = Instantiate(prefab, new Vector3(x, y, 0), Quaternion.identity);
         }
     }
 

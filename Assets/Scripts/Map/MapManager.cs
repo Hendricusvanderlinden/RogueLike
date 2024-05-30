@@ -8,6 +8,7 @@ public class MapManager : MonoBehaviour
 {
     private static MapManager instance;
 
+
     private void Awake()
     {
         if (instance == null)
@@ -50,17 +51,19 @@ public class MapManager : MonoBehaviour
         GenerateDungeon();
     }
 
+    public int maxItems = 2;
+
     private void GenerateDungeon()
     {
         Tiles = new Dictionary<Vector3Int, TileData>();
         VisibleTiles = new List<Vector3Int>();
 
-
         var generator = new DungeonGenerator();
         generator.SetSize(width, height);
         generator.SetRoomSize(roomMinSize, roomMaxSize);
         generator.SetMaxRooms(maxRooms);
-        generator.SetMaxEnemies(maxEnemies); // Stel het maximale aantal vijanden in
+        generator.SetMaxEnemies(maxEnemies);
+        generator.SetMaxItems(maxItems); // Stel het maximale aantal items in
         generator.Generate();
 
         AddTileMapToDictionary(FloorMap);

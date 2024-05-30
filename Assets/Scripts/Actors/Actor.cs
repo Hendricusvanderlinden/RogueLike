@@ -27,7 +27,7 @@ public class Actor : MonoBehaviour
         UpdateFieldOfView();
         if (GetComponent<Player>())
         {
-            UIManager.Instance.UpdateHealth(hitPoints, maxHitPoints);
+            UIManager.Get.UpdateHealth(hitPoints, maxHitPoints);
         }
     }
 
@@ -72,21 +72,16 @@ public class Actor : MonoBehaviour
     {
         if (GetComponent<Player>())
         {
-            UIManager.Instance.AddMessage("You died!", Color.red);
+            UIManager.Get.AddMessage("You died!", Color.red); // Red
         }
         else
         {
-            UIManager.Instance.AddMessage($"{name} is dead!", Color.green);
+            UIManager.Get.AddMessage($"{name} is dead!", new Color(1f, 0.64f, 0f)); // Light Orange
         }
 
-        GameObject remains = GameManager.Get.CreateActor("Gravestone", transform.position);
-        remains.name = $"Remains of {name}";
-
-        if (GetComponent<Enemy>())
-        {
-            GameManager.Get.RemoveEnemy(this);
-        }
-
+        GameManager.Get.CreateGameObject("Dead", transform.position).name = $"Remains of {name}";
+        GameManager.Get.RemoveEnemy(this);
         Destroy(gameObject);
     }
+
 }

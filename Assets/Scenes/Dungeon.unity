@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 141927719}
   - component: {fileID: 141927720}
+  - component: {fileID: 141927721}
   m_Layer: 0
   m_Name: HealthBar
   m_TagString: Untagged
@@ -171,6 +172,18 @@ MonoBehaviour:
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: 65bce2f132d244440b362b4430cdcd3f, type: 3}
   m_SortingOrder: 0
+--- !u!114 &141927721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141927718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f2c4616849a4314eb7468695c10c77c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &408639667
 GameObject:
   m_ObjectHideFlags: 0
@@ -630,6 +643,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1759813710}
   - component: {fileID: 1759813711}
+  - component: {fileID: 1759813712}
   m_Layer: 0
   m_Name: Messages
   m_TagString: Untagged
@@ -668,6 +682,18 @@ MonoBehaviour:
   m_ParentUI: {fileID: 0}
   sourceAsset: {fileID: 9197481963319205126, guid: b23649f214a5efa40a613dee2b6d2d9e, type: 3}
   m_SortingOrder: 0
+--- !u!114 &1759813712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759813709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e6f7f6cf6a8d404d859b37b51cd5533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1849172295
 GameObject:
   m_ObjectHideFlags: 0
@@ -797,6 +823,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2105490178}
+  - component: {fileID: 2105490179}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -821,6 +848,20 @@ Transform:
   - {fileID: 1759813710}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2105490179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105490176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 637e5504c28d8cc4680c410f40c7352d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBar: {fileID: 141927718}
+  Messages: {fileID: 1759813709}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

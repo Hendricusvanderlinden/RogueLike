@@ -32,16 +32,16 @@ public class Enemy : MonoBehaviour
     // Functie om de AI van de vijand uit te voeren
     public void RunAI()
     {
-        // If target is null, set target to player (from GameManager)
+        // If target is null, set target to player (from gameManager)
         if (Target == null)
         {
             Target = GameManager.Get.Player;
         }
 
-        // Convert the position of the target to a gridPosition
+        // convert the position of the target to a gridPosition
         var gridPosition = MapManager.Get.FloorMap.WorldToCell(Target.transform.position);
 
-        // First check if already fighting, because the FieldOfView check costs more CPU
+        // First check if already fighting, because the FieldOfView check costs more cpu
         if (IsFighting || GetComponent<Actor>().FieldOfView.Contains(gridPosition))
         {
             // If the enemy was not fighting, it should be fighting now
@@ -50,8 +50,21 @@ public class Enemy : MonoBehaviour
                 IsFighting = true;
             }
 
-            // Call MoveAlongPath with the gridPosition
-            MoveAlongPath(gridPosition);
+            // See how far away the player is
+            float targetDistance = Vector3.Distance(transform.position, Target.transform.position);
+
+            // if close ...
+            if (targetDistance <= 1.5f)
+            {
+                // ... hit!
+                Action.Hit(GetComponent<Actor>(), Target);
+            }
+            else
+            {
+                // call MoveAlongPath with the gridPosition
+                MoveAlongPath(gridPosition);
+            }
         }
     }
+
 }

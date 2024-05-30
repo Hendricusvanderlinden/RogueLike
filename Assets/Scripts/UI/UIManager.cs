@@ -4,36 +4,24 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager Instance { get; private set; }
-
-    [Header("Documents")]
-    public GameObject HealthBar;
-    public GameObject Messages;
+    private static UIManager instance;
 
     private void Awake()
     {
-        if (Instance == null)
+        if (instance == null)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            instance = this;
         }
-        else
+        else if (instance != this)
         {
             Destroy(gameObject);
         }
     }
+    public static UIManager Get { get => instance; }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        // Optional: Initial setup if needed
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // Optional: Update logic if needed
-    }
+    [Header("Documents")]
+    public GameObject HealthBar;
+    public GameObject Messages;
 
     public void UpdateHealth(int current, int max)
     {

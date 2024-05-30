@@ -27,6 +27,37 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Get { get => instance; }
 
+    public GameObject CreateGameObject(string name, Vector2 position)
+    {
+        GameObject actor = Instantiate(Resources.Load<GameObject>($"Prefabs/{name}"), new Vector3(position.x + 0.5f, position.y + 0.5f, 0), Quaternion.identity);
+        actor.name = name;
+        return actor;
+    }
+
+    private List<Consumable> items = new List<Consumable>();
+
+    public void AddItem(Consumable item)
+    {
+        items.Add(item);
+    }
+
+    public void RemoveItem(Consumable item)
+    {
+        items.Remove(item);
+    }
+
+    public Consumable GetItemAtLocation(Vector3 location)
+    {
+        foreach (Consumable item in items)
+        {
+            if (item.transform.position == location)
+            {
+                return item;
+            }
+        }
+        return null;
+    }
+
     // Functie om een vijand toe te voegen aan de lijst
     public void AddEnemy(Actor enemy)
     {
@@ -38,7 +69,6 @@ public class GameManager : MonoBehaviour
         if (enemies.Contains(enemy))
         {
             enemies.Remove(enemy);
-            Destroy(enemy.gameObject); // Optional: Destroy the enemy GameObject
         }
     }
 
