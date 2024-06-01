@@ -10,12 +10,17 @@ public class Consumable : MonoBehaviour
         Fireball,
         ScrollOfConfusion
     }
-
+    public int HealingAmount;
+    public int Damage;
     [SerializeField]
     private ItemType type;
+
+    public ItemType Type => type;
+
+
     private void Start()
     {
         GameManager.Get.AddItem(this);
     }
-    public ItemType Type => type;
+
 }

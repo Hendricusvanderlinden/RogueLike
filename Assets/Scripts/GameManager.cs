@@ -131,4 +131,22 @@ public class GameManager : MonoBehaviour
         // Return the instantiated actor
         return actor;
     }
+    public List<Actor> GetNearbyEnemies(Vector3 location)
+    {
+        List<Actor> nearbyEnemies = new List<Actor>();
+
+        foreach (var enemy in enemies)
+        {
+            // Bereken de afstand tussen de locatie en de positie van de vijand
+            float distance = Vector3.Distance(location, enemy.transform.position);
+
+            // Als de afstand kleiner is dan 5, voeg de vijand toe aan de lijst van nabije vijanden
+            if (distance < 5f)
+            {
+                nearbyEnemies.Add(enemy);
+            }
+        }
+
+        return nearbyEnemies;
+    }
 }

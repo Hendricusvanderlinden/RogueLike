@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour
     public Actor Target { get; set; }
     public bool IsFighting { get; private set; } = false;
     private AStar algorithm;
+    private int confused = 0; // Toegevoegd
+
 
     // Start wordt aangeroepen vóór de eerste frame-update
     void Start()
@@ -36,6 +38,18 @@ public class Enemy : MonoBehaviour
         if (Target == null)
         {
             Target = GameManager.Get.Player;
+        }
+
+        // Check of de enemy in de war is
+        if (confused > 0)
+        {
+            // Verminder de confused-waarde met 1
+            confused--;
+
+            // Toon een bericht dat de enemy in de war is
+            UIManager.Get.AddMessage($"The {name} is confused and cannot act", Color.yellow);
+
+            return; // Stop de AI-verwerking
         }
 
         // convert the position of the target to a gridPosition
@@ -66,5 +80,9 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-
+    // Public functie om de enemy in de war te brengen
+    public void Confuse()
+    {
+        confused = 8;
+    }
 }

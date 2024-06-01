@@ -7,6 +7,8 @@ public class Inventory : MonoBehaviour
     public List<Consumable> items = new List<Consumable>();
     public int MaxItems = 10;
 
+    public List<Consumable> Items { get; internal set; }
+
     public bool AddItem(Consumable item)
     {
         if (items.Count < MaxItems)

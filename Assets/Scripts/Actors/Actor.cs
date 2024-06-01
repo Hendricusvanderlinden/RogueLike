@@ -84,4 +84,25 @@ public class Actor : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void Heal(int hp)
+    {
+        // Bereken het effectieve aantal hitpoints dat wordt geheeld
+        int effectiveHealing = Mathf.Min(MaxHitPoints - HitPoints, hp);
+
+        // Verhoog de hitPoints
+        hitPoints += effectiveHealing;
+
+        // Zorg ervoor dat de hitPoints niet hoger zijn dan het maximum
+        hitPoints = Mathf.Min(hitPoints, MaxHitPoints);
+
+        // Update de healthbar als de actor een speler is
+        if (GetComponent<Player>())
+        {
+            UIManager.Get.UpdateHealth(hitPoints, MaxHitPoints);
+        }
+
+        // Voeg een bericht toe over de hoeveelheid genezing
+        string message = $"You were healed for {effectiveHealing} hit points.";
+        UIManager.Get.AddMessage(message, Color.green);
+    }
 }

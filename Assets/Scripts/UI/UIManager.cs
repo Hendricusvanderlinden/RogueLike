@@ -17,11 +17,15 @@ public class UIManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
     public static UIManager Get { get => instance; }
 
     [Header("Documents")]
     public GameObject HealthBar;
     public GameObject Messages;
+    public GameObject Inventory;
+
+    public InventoryUI InventoryUI => Inventory.GetComponent<InventoryUI>();
 
     public void UpdateHealth(int current, int max)
     {
