@@ -20,6 +20,10 @@ public class UIManager : MonoBehaviour
 
     public static UIManager Get { get => instance; }
 
+    public FloorInfo floorInfo;
+
+
+
     [Header("Documents")]
     public GameObject HealthBar;
     public GameObject Messages;
@@ -35,5 +39,15 @@ public class UIManager : MonoBehaviour
     public void AddMessage(string message, Color color)
     {
         Messages.GetComponent<Messages>().AddMessage(message, color);
+    }
+
+    public void UpdateLevel(int level)
+    {
+        HealthBar.GetComponent<HealthBar>().SetLevel(level);
+    }
+
+    public void UpdateXP(int xp)
+    {
+        HealthBar.GetComponent<HealthBar>().SetXP(xp);
     }
 }

@@ -12,16 +12,31 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
     private bool droppingItem = false;
     private bool usingItem = false;
 
+    private Actor actor;
+
+    public int MaxHitPoints;
+    public int HitPoints;
+    public int Defense;
+    public int Power;
+    public int Level;
+    public int XP;
+    public int XpToNextLevel;
+
     private void Awake()
     {
         controls = new Controls();
+        actor = GetComponent<Actor>();
     }
 
     private void Start()
     {
         inventory = GetComponent<Inventory>();
         Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -5);
-        GameManager.Get.Player = GetComponent<Actor>();
+        GameManager.Get.Player = actor;
+
+        // Update UI with initial values
+        UIManager.Get.UpdateLevel(actor.Level);
+        UIManager.Get.UpdateXP(actor.Xp);
     }
 
     private void OnEnable()
@@ -78,7 +93,7 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
     {
         Vector2 direction = controls.Player.Movement.ReadValue<Vector2>();
         Vector2 roundedDirection = new Vector2(Mathf.Round(direction.x), Mathf.Round(direction.y));
-        Action.MoveOrHit(GetComponent<Actor>(), roundedDirection); // Changed from Action.Move to Action.MoveOrHit
+        Action.MoveOrHit(actor, roundedDirection); // Changed from Action.Move to Action.MoveOrHit
         Camera.main.transform.position = new Vector3(transform.position.x, transform.position.y, -5);
     }
 
@@ -150,6 +165,26 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
         }
     }
 
+    public void OnInteract(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            Vector3Int playerPosition = MapManager.Get.FloorMap.WorldToCell(transform.position);
+            Ladder ladder = GameManager.Get.GetLadderAtLocation(playerPosition);
+
+            if (ladder != null)
+            {
+                if (ladder.Up)
+                {
+                    MapManager.Get.MoveUp();
+                }
+                else
+                {
+                    MapManager.Get.MoveDown();
+                }
+            }
+        }
+    }
 
     public void OnUse(InputAction.CallbackContext context)
     {
@@ -169,22 +204,22 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
         switch (item.Type)
         {
             case Consumable.ItemType.HealthPotion:
-                GetComponent<Actor>().Heal(item.HealingAmount);
+                actor.Heal(item.HealingAmount);
                 UIManager.Get.AddMessage($"You used a Health Potion and healed for {item.HealingAmount} hit points.", Color.green);
                 break;
             case Consumable.ItemType.Fireball:
                 List<Actor> nearbyEnemies = GameManager.Get.GetNearbyEnemies(transform.position);
                 foreach (Actor enemy in nearbyEnemies)
                 {
-                    enemy.DoDamage(item.Damage);
+                    enemy.DoDamage(item.Damage, actor); // Pass the player as the attacker
                 }
                 UIManager.Get.AddMessage($"You used a Fireball and dealt {item.Damage} damage to nearby enemies.", Color.red);
                 break;
             case Consumable.ItemType.ScrollOfConfusion:
                 List<Actor> nearbyActors = GameManager.Get.GetNearbyEnemies(transform.position);
-                foreach (Actor actor in nearbyActors)
+                foreach (Actor enemy in nearbyActors)
                 {
-                    Enemy enemyComponent = actor.GetComponent<Enemy>();
+                    Enemy enemyComponent = enemy.GetComponent<Enemy>();
                     if (enemyComponent != null)
                     {
                         enemyComponent.Confuse();
@@ -195,6 +230,21 @@ public class Player : MonoBehaviour, Controls.IPlayerActions
             default:
                 UIManager.Get.AddMessage("You cannot use this item.", Color.gray);
                 break;
+        }
+    }
+    public void Die()
+    {
+        // Add your death logic here...
+
+        // Delete the save data upon death
+        GameManager.Get.DeletePlayerData();
+    }
+    public class SomeOtherClass : MonoBehaviour
+    {
+        void Start()
+        {
+            Player player = FindObjectOfType<Player>();
+            GameManager.Get.SetPlayer(player);
         }
     }
 }

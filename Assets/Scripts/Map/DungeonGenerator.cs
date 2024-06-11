@@ -8,8 +8,14 @@ public class DungeonGenerator : MonoBehaviour
     private int maxRoomSize, minRoomSize;
     private int maxRooms;
     private int maxEnemies;
+    private int currentFloor = 0; // Added currentFloor variable
 
     List<Room> rooms = new List<Room>();
+
+    private List<string> enemyNames = new List<string>
+    {
+        "Enemy1", "Enemy2", "Enemy3", "Enemy4", "Enemy5", "Enemy6", "Enemy7", "Enemy8", "Enemy9", "Enemy10"
+    };
 
     public void SetSize(int width, int height)
     {
@@ -27,9 +33,15 @@ public class DungeonGenerator : MonoBehaviour
     {
         maxRooms = max;
     }
+
     public void SetMaxEnemies(int max)
     {
         maxEnemies = max;
+    }
+
+    public void SetCurrentFloor(int floor) // Function to set current floor
+    {
+        currentFloor = floor;
     }
 
     public void Generate()
@@ -71,7 +83,6 @@ public class DungeonGenerator : MonoBehaviour
                     {
                         SetFloorTile(new Vector3Int(x, y, 0));
                     }
-
                 }
             }
 
@@ -85,31 +96,39 @@ public class DungeonGenerator : MonoBehaviour
 
             rooms.Add(room);
         }
+
+        // Place ladders
+        if (currentFloor > 0)
+        {
+            PlaceLadder(rooms[0].Center(), true); // Ladder up in the first room if not on the first floor
+        }
+
+        if (currentFloor < maxRooms - 1)
+        {
+            PlaceLadder(rooms[rooms.Count - 1].Center(), false); // Ladder down in the last room if not on the last floor
+        }
+
         var player = GameManager.Get.CreateActor("Player", rooms[0].Center());
     }
 
     private void PlaceEnemies(Room room, int maxEnemies)
     {
-        // the number of enemies we want
         int num = Random.Range(0, maxEnemies + 1);
 
         for (int counter = 0; counter < num; counter++)
         {
-            // The borders of the room are walls, so add and subtract by 1
             int x = Random.Range(room.X + 1, room.X + room.Width - 1);
             int y = Random.Range(room.Y + 1, room.Y + room.Height - 1);
 
-            // create different enemies
-            if (Random.value < 0.5f)
-            {
-                GameManager.Get.CreateActor("Elephant", new Vector2(x, y));
-            }
-            else
-            {
-                GameManager.Get.CreateActor("Turkey", new Vector2(x, y));
-            }
+            // Determine the index range for enemy selection based on the current floor
+            int maxEnemyIndex = Mathf.Min(currentFloor + 2, enemyNames.Count); // Adjust range as needed
+            int enemyIndex = Random.Range(0, maxEnemyIndex);
+
+            string enemyName = enemyNames[enemyIndex];
+            GameManager.Get.CreateActor(enemyName, new Vector2(x, y));
         }
     }
+
     private int maxItems;
     private List<GameObject> itemPrefabs = new List<GameObject>();
     private List<Vector3> availablePositions = new List<Vector3>();
@@ -123,23 +142,41 @@ public class DungeonGenerator : MonoBehaviour
     {
         itemPrefabs.Add(prefab);
     }
+
     private void PlaceItems(Room room, int maxItems)
     {
-        // Aantal items dat we willen plaatsen
+        // the number of items we want
         int num = Random.Range(0, maxItems + 1);
 
         for (int counter = 0; counter < num; counter++)
         {
-            // De randen van de kamer zijn muren, dus voeg en trek 1 af
+            // The borders of the room are walls, so add and substract by 1
             int x = Random.Range(room.X + 1, room.X + room.Width - 1);
             int y = Random.Range(room.Y + 1, room.Y + room.Height - 1);
 
-            // Kies een willekeurig item uit de lijst van item prefabs
-            GameObject prefab = itemPrefabs[Random.Range(0, itemPrefabs.Count)];
-
-            // Maak het item
-            GameObject item = Instantiate(prefab, new Vector3(x, y, 0), Quaternion.identity);
+            // create different items
+            float value = Random.value;
+            if (value > 0.8f)
+            {
+                GameManager.Get.CreateGameObject("ScrollOfConfusion", new Vector2(x, y));
+            }
+            else if (value > 0.5f)
+            {
+                GameManager.Get.CreateGameObject("Fireball", new Vector2(x, y));
+            }
+            else
+            {
+                GameManager.Get.CreateGameObject("HealthPotion", new Vector2(x, y));
+            }
         }
+    }
+
+    private void PlaceLadder(Vector2 position, bool up)
+    {
+        GameObject ladderObject = GameManager.Get.CreateGameObject("Ladder", position);
+        Ladder ladder = ladderObject.GetComponent<Ladder>();
+        ladder.Up = up;
+        GameManager.Get.AddLadder(ladder);
     }
 
     private bool TrySetWallTile(Vector3Int pos)

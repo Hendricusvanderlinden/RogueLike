@@ -214,6 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9baa303e5bb0e184d929322ba7d8f4d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  floorInfo: {fileID: 0}
   FloorMap: {fileID: 1849172296}
   ObstacleMap: {fileID: 1578167248}
   FogMap: {fileID: 1410258482}
@@ -227,6 +228,7 @@ MonoBehaviour:
   roomMinSize: 6
   maxRooms: 30
   maxEnemies: 2
+  maxItems: 2
 --- !u!156049354 &408639669
 Grid:
   m_ObjectHideFlags: 0
@@ -349,6 +351,67 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &858203581
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 858203582}
+  - component: {fileID: 858203584}
+  - component: {fileID: 858203583}
+  m_Layer: 0
+  m_Name: InventoryUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &858203582
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858203581}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2105490178}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &858203583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858203581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be61e4255bb73fc4bb76a0cc963f415f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &858203584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 858203581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 19102, guid: 0000000000000000e000000000000000, type: 0}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PanelSettings: {fileID: 11400000, guid: 78834f672c510544693e8a53dfc562fb, type: 2}
+  m_ParentUI: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: 7295e49fc8ca63948bd55155b1139f94, type: 3}
+  m_SortingOrder: 0
 --- !u!1 &1410258481
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,6 +681,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44e9d814d41812e47b8511f231aea3e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  floorInfo: {fileID: 0}
 --- !u!4 &1684302755
 Transform:
   m_ObjectHideFlags: 0
@@ -846,6 +910,7 @@ Transform:
   m_Children:
   - {fileID: 141927719}
   - {fileID: 1759813710}
+  - {fileID: 858203582}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2105490179
@@ -860,8 +925,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 637e5504c28d8cc4680c410f40c7352d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  floorInfo: {fileID: 0}
   HealthBar: {fileID: 141927718}
   Messages: {fileID: 1759813709}
+  Inventory: {fileID: 858203581}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -5,4 +5,8 @@
             <ui:Label tabindex="-1" text="30/30 HP" parse-escape-sequences="true" display-tooltip-when-elided="true" name="HealthText" style="position: relative; -unity-font: resource(&apos;videophreak/VIDEOPHREAK&apos;); -unity-font-definition: resource(&apos;videophreak/VIDEOPHREAK SDF&apos;); font-size: 11px; justify-content: flex-start; align-self: center;" />
         </ui:VisualElement>
     </ui:VisualElement>
+    <ui:VisualElement style="flex-grow: 1; position: absolute; left: 25px; bottom: 90px; height: 52px; width: 40px; color: rgb(0, 0, 0); background-color: rgb(65, 69, 255);">
+        <ui:Label tabindex="-1" text="Level" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Level" style="font-size: 10px;" />
+        <ui:Label tabindex="-1" text="0" parse-escape-sequences="true" display-tooltip-when-elided="true" name="xp" style="font-size: 10px; align-self: auto;" />
+    </ui:VisualElement>
 </ui:UXML>

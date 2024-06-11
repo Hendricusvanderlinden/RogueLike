@@ -22,7 +22,6 @@ public class Action : MonoBehaviour
     {
         actor.Move(direction);
         actor.UpdateFieldOfView();
-        
     }
 
     static private void EndTurn(Actor actor)
@@ -42,12 +41,12 @@ public class Action : MonoBehaviour
         if (damage > 0)
         {
             UIManager.Get.AddMessage($"{description} for {damage} hit points.", color);
-            target.DoDamage(damage);
+            target.DoDamage(damage, actor); // Pass the attacker
         }
         else
         {
             UIManager.Get.AddMessage($"{description} but does no damage.", color);
         }
     }
-
 }
+

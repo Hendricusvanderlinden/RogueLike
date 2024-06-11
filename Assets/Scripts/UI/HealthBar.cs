@@ -8,18 +8,19 @@ public class HealthBar : MonoBehaviour
     private VisualElement root;
     private VisualElement healthBar;
     private Label healthLabel;
+    private Label levelLabel;
+    private Label xpLabel;
 
     void Start()
     {
-        // Haal de root VisualElement op van de UI Document
         var uiDocument = GetComponent<UIDocument>();
         if (uiDocument != null)
         {
             root = uiDocument.rootVisualElement;
-
-            // Vind de healthBar en healthLabel elementen in de UI
             healthBar = root.Q<VisualElement>("HealthBar");
             healthLabel = root.Q<Label>("HealthText");
+            levelLabel = root.Q<Label>("LevelText");
+            xpLabel = root.Q<Label>("XPText");
         }
         else
         {
@@ -35,13 +36,18 @@ public class HealthBar : MonoBehaviour
             return;
         }
 
-        // Bereken het percentage van de huidige hit points ten opzichte van de maximale hit points
         float percent = (float)currentHitPoints / maxHitPoints * 100f;
-
-        // Pas de breedte van de healthBar aan op basis van het percentage
         healthBar.style.width = Length.Percent(percent);
-
-        // Pas de tekst van het healthLabel aan
         healthLabel.text = $"{currentHitPoints}/{maxHitPoints} HP";
+    }
+
+    public void SetLevel(int level)
+    {
+        levelLabel.text = $"Level: {level}";
+    }
+
+    public void SetXP(int xp)
+    {
+        xpLabel.text = $"XP: {xp}";
     }
 }

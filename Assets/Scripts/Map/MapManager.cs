@@ -8,20 +8,10 @@ public class MapManager : MonoBehaviour
 {
     private static MapManager instance;
 
+    private int currentFloor = 0;
 
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
-    }
+    public FloorInfo floorInfo;
 
-    public static MapManager Get { get => instance; }
 
     [Header("TileMaps")]
     public Tilemap FloorMap;
@@ -45,13 +35,26 @@ public class MapManager : MonoBehaviour
     public int roomMinSize = 6;
     public int maxRooms = 30;
     public int maxEnemies = 2; // Nieuwe variabele voor het maximale aantal vijanden
+    public int maxItems = 2; // Nieuwe variabele voor het maximale aantal items
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public static MapManager Get { get => instance; }
 
     private void Start()
     {
         GenerateDungeon();
     }
-
-    public int maxItems = 2;
 
     private void GenerateDungeon()
     {
@@ -63,7 +66,8 @@ public class MapManager : MonoBehaviour
         generator.SetRoomSize(roomMinSize, roomMaxSize);
         generator.SetMaxRooms(maxRooms);
         generator.SetMaxEnemies(maxEnemies);
-        generator.SetMaxItems(maxItems); // Stel het maximale aantal items in
+        generator.SetMaxItems(maxItems);
+        generator.SetCurrentFloor(currentFloor); // Stel de huidige verdieping in
         generator.Generate();
 
         AddTileMapToDictionary(FloorMap);
@@ -71,6 +75,29 @@ public class MapManager : MonoBehaviour
         SetupFogMap();
     }
 
+    public void MoveUp()
+    {
+        currentFloor++;
+        GameManager.Get.ClearFloor();
+        GenerateDungeon();
+        UpdateFloorText();
+    }
+
+    public void MoveDown()
+    {
+        if (currentFloor > 0)
+        {
+            currentFloor--;
+            GameManager.Get.ClearFloor();
+            GenerateDungeon();
+            UpdateFloorText();
+        }
+    }
+
+    private void UpdateFloorText()
+    {
+        UIManager.Get.floorInfo.SetFloorText($"Floor {currentFloor}");
+    }
 
     public bool InBounds(int x, int y) => 0 <= x && x < width && 0 <= y && y < height;
 
